@@ -7,10 +7,10 @@
 <body>
     <p>A abrir o WhatsApp...</p>
     <script>
-        // Recolhe os parâmetros da URL (ex: ?num=5521...&msg=texto)
-        const urlParams = new URLSearchParams(window.location.search);
-        const numero = urlParams.get('num');
-        const mensagem = urlParams.get('msg');
+        // A MAGIA ACONTECE AQUI: Lemos o hash (#) em vez do search (?)
+        const parametros = new URLSearchParams(window.location.hash.substring(1));
+        const numero = parametros.get('num');
+        const mensagem = parametros.get('msg');
 
         // Se o número existir, monta a ligação do WhatsApp e redireciona
         if (numero) {
