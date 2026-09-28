@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>A redirecionar para o WhatsApp...</title>
+</head>
+<body>
+    <p>A abrir o WhatsApp...</p>
+    <script>
+        // Recolhe os parâmetros da URL (ex: ?num=5521...&msg=texto)
+        const urlParams = new URLSearchParams(window.location.search);
+        const numero = urlParams.get('num');
+        const mensagem = urlParams.get('msg');
+
+        // Se o número existir, monta a ligação do WhatsApp e redireciona
+        if (numero) {
+            let linkFinal = "https://wa.me/" + numero;
+            if (mensagem) {
+                // Codifica a mensagem corretamente para o WhatsApp
+                linkFinal += "?text=" + encodeURIComponent(mensagem);
+            }
+            // Executa o redirecionamento instantâneo
+            window.location.href = linkFinal;
+        } else {
+            document.body.innerHTML = "<p>Erro: Número não fornecido.</p>";
+        }
+    </script>
+</body>
+</html>
