@@ -5,24 +5,33 @@
     <title>A redirecionar para o WhatsApp...</title>
 </head>
 <body>
-    <p>A abrir o WhatsApp...</p>
+    <p>A processar a ligação...</p>
     <script>
-        // A MAGIA ACONTECE AQUI: Lemos o hash (#) em vez do search (?)
-        const parametros = new URLSearchParams(window.location.hash.substring(1));
+        // Capta a informação quer venha por ? (search) ou por # (hash)
+        let query = window.location.search;
+        if (!query) {
+            query = window.location.hash;
+        }
+        
+        // Remove o símbolo inicial (? ou #) para processar o texto limpo
+        if (query.startsWith('?') || query.startsWith('#')) {
+            query = query.substring(1);
+        }
+
+        const parametros = new URLSearchParams(query);
         const numero = parametros.get('num');
         const mensagem = parametros.get('msg');
 
-        // Se o número existir, monta a ligação do WhatsApp e redireciona
         if (numero) {
+            document.body.innerHTML = "<p>A abrir o WhatsApp...</p>";
             let linkFinal = "https://wa.me/" + numero;
             if (mensagem) {
-                // Codifica a mensagem corretamente para o WhatsApp
                 linkFinal += "?text=" + encodeURIComponent(mensagem);
             }
-            // Executa o redirecionamento instantâneo
             window.location.href = linkFinal;
         } else {
-            document.body.innerHTML = "<p>Erro: Número não fornecido.</p>";
+            // Se falhar, mostra exatamente o que chegou ao site para podermos corrigir
+            document.body.innerHTML = "<p><strong>Erro: Número não encontrado.</strong></p><p>O site recebeu este endereço: <br>" + window.location.href + "</p>";
         }
     </script>
 </body>
